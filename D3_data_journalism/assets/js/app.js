@@ -188,17 +188,34 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .classed("active", true)
         .text("Household Income (Median)");
     // append y axis
-    // Create group for three x-axis labels
+    // Create group for three y-axis labels
     var labelsYGroup = chartGroup.append("g")
-        .attr("transform", `translate(${margin.left}, ${height / 2})`);
+        .attr("transform", `translate(${0-margin.left}, ${height / 2})`);
 
-    chartGroup.append("text")
+        labelsYGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height / 2))
+        .attr("y", 50)
+        .attr("x", 0)
         .attr("dy", "1em")
         .classed("active", true)
         .text("Lacks Healthcare (%)"); 
+
+        labelsYGroup.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 30)
+        .attr("x", 0)
+        .attr("dy", "1em")
+        .classed("active", true)
+        .text("Smokes (%)"); 
+
+        labelsYGroup.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 10)
+        .attr("x", 0)
+        .attr("dy", "1em")
+        .classed("active", true)
+        .text("Obese (%)"); 
+
 
         // updateToolTip function above csv import
         var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
