@@ -26,18 +26,18 @@ var chartGroup = svg.append("g")
 
 // Initial Params
 var chosenXAxis = "poverty";
+var chosenYAxis = "healthcare";
 
 // function used for updating x-scale var upon click on axis label
 function xScale(journalismData, chosenXAxis) {
     // create scales
     var xLinearScale = d3.scaleLinear()
       .domain([d3.min(journalismData, d => d[chosenXAxis])*0.8,
-        d3.max(journalismData, d => d[chosenXAxis])*3
+        d3.max(journalismData, d => d[chosenXAxis])*2.5
       ])
       .range([0, width]);
   
     return xLinearScale;
-  
 }
 
 // function used for updating xAxis var upon click on axis label
@@ -65,30 +65,43 @@ function renderAxes(newXScale, xAxis) {
 // function used for updating circles group with new tooltip
 function updateToolTip(chosenXAxis, circlesGroup) {
 
-    var label;
+    var labelX;
   
     if (chosenXAxis === "poverty") {
-      label = "In Poverty(%):";
+      labelX = "Poverty:";
     }
     else {
-      label = "# :";
+      labelX = "# :";
+    }
+    var labely;
+  
+    if (chosenYAxis === "healthcare") {
+      labelY = "Health:";
+    }
+    else {
+      labelY = "# :";
     }
   
     var toolTip = d3.tip()
       .attr("class", "d3-tip")
       .offset([35, 80])                   // Show tool tips on the right of the circle
       .html(function(d) {
-        return (`${d.state}<br>${label} ${d[chosenXAxis]}`);
+        return (`${d.state}<br>${labelX} ${d[chosenXAxis]}%<br>${labelY} ${d.healthcare}%`);
       });
   
     circlesGroup.call(toolTip);
   
     circlesGroup.on("mouseover", function(data) {
       toolTip.show(data);
+      this.style.cursor='pointer';
+      d3.select(this)
+            .classed("active",true);   
     })
       // onmouseout event
       .on("mouseout", function(data) {
         toolTip.hide(data);
+        d3.select(this)
+            .classed("inactive",true);   
       });
   
     return circlesGroup;
@@ -109,7 +122,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
      
     // Create y scale function
     var yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.healthcare)])
+        .domain([d3.min(data, d => d.healthcare)*0.88, d3.max(data, d => d.healthcare)])
         .range([height, 0]);
     
     // Create initial axis functions
@@ -134,11 +147,11 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d.healthcare))
         .attr("r", 15)
-        .attr("fill", "#30B7FF")    //#30B7FF
+        .classed("inactive", true)
         .attr("opacity", ".6");
 
     /* Create the text for each state circle */
-    var textGroup = chartGroup.append('g')
+    const textGroup = chartGroup.append('g')
       .selectAll('text')
       .data(data)
       .enter().append('text')
@@ -146,9 +159,8 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       .attr("x", d => xLinearScale(d[chosenXAxis]))
       .attr("y", d => yLinearScale(d.healthcare))
       .attr("class","stateText")
-      .attr('font-size',7)         // font size
-      // .attr('dx', -10)             //positions text towards the left of the center of the circle
-      // .attr('dy',4)
+      .attr('font-size',10)         // font size       
+      .attr('dy',3)                //adjusts the text position so that it is vertically in the center of the circle 
 
     // Create group for two x-axis labels
     var labelsGroup = chartGroup.append("g")
@@ -159,7 +171,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
         .classed("active", true)
-        .text("In Poverty %"); 
+        .text("In Poverty (%)"); 
   
     // append y axis
     chartGroup.append("text")
@@ -167,8 +179,8 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 0 - margin.left)
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
-        .classed("axis-text", true)
-        .text("Lack of Healthcare %"); // updateToolTip function above csv import
+        .classed("active", true)
+        .text("Lacks Healthcare (%)"); // updateToolTip function above csv import
         var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
       
         // x axis labels event listener
