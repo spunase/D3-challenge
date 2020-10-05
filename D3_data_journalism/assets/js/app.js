@@ -70,16 +70,22 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     if (chosenXAxis === "poverty") {
       labelX = "Poverty:";
     }
-    else {
-      labelX = "# :";
+    else if (chosenXAxis === "age") {
+      labelX === "Age:";
     }
-    var labely;
+    else if (chosenXAxis === "income") {
+      labelX === "Household Income:";
+    }
+    var labelY;
   
     if (chosenYAxis === "healthcare") {
       labelY = "Health:";
     }
-    else {
-      labelY = "# :";
+    else if(chosenYAxis === "smokes") {
+      labelY = "Smokes:";
+    }
+    else if(chosenYAxis === "obesity") {
+      labelY = "Obese:";
     }
   
     var toolTip = d3.tip()
@@ -145,7 +151,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .enter()
         .append("circle")
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
-        .attr("cy", d => yLinearScale(d.healthcare))
+        .attr("cy", d => yLinearScale(d[chosenYAxis]))
         .attr("r", 15)
         .classed("inactive", true)
         .attr("opacity", ".6");
@@ -157,7 +163,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       .enter().append('text')
       .text(d => d.abbr)
       .attr("x", d => xLinearScale(d[chosenXAxis]))
-      .attr("y", d => yLinearScale(d.healthcare))
+      .attr("y", d => yLinearScale(d[chosenYAxis]))
       .attr("class","stateText")
       .attr('font-size',10)         // font size       
       .attr('dy',3)                //adjusts the text position so that it is vertically in the center of the circle 
@@ -247,20 +253,39 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       
               // changes classes to change bold text
               if (chosenXAxis === "poverty") {
-                albumsLabel
+                povertyLabel
                   .classed("active", true)
                   .classed("inactive", false);
-                povertyLabel
+                ageLabel
+                  .classed("active", false)
+                  .classed("inactive", true);
+                incomeLabel
                   .classed("active", false)
                   .classed("inactive", true);
               }
-              else {
-                albumsLabel
+              else if (chosenXAxis === "age") {
+                povertyLabel
                   .classed("active", false)
                   .classed("inactive", true);
-                povertyLabel
+                ageLabel
                   .classed("active", true)
                   .classed("inactive", false);
+                incomeLabel
+                  .classed("active", false)
+                  .classed("inactive", true);
+                
+              }
+              else {
+                povertyLabel
+                  .classed("active", false)
+                  .classed("inactive", true);
+                ageLabel
+                  .classed("active", false)
+                  .classed("inactive", true);
+                incomeLabel
+                  .classed("active", true)
+                  .classed("inactive", false);
+
               }
             }
           });
