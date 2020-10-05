@@ -90,7 +90,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
       });
   
     circlesGroup.call(toolTip);
-  
+      //  mouseover event
     circlesGroup.on("mouseover", function(data) {
       toolTip.show(data);
       this.style.cursor='pointer';
@@ -162,7 +162,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       .attr('font-size',10)         // font size       
       .attr('dy',3)                //adjusts the text position so that it is vertically in the center of the circle 
 
-    // Create group for two x-axis labels
+    // Create group for three x-axis labels
     var labelsGroup = chartGroup.append("g")
         .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
@@ -171,8 +171,21 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
         .classed("active", true)
-        .text("In Poverty (%)"); 
-  
+        .text("In Poverty (%)");
+        // Bonus  additional X_axis labels in your scatter plot
+    var ageLabel = labelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("value", "age") // value to grab for event listener
+        .classed("active", true)
+        .text("Age (Median)"); 
+      //  Bonus additional x_axis
+    var incomeLabel = labelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("value", "income") // value to grab for event listener
+        .classed("active", true)
+        .text("Household Income (Median)");
     // append y axis
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
@@ -180,7 +193,9 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
         .classed("active", true)
-        .text("Lacks Healthcare (%)"); // updateToolTip function above csv import
+        .text("Lacks Healthcare (%)"); 
+
+        // updateToolTip function above csv import
         var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
       
         // x axis labels event listener
