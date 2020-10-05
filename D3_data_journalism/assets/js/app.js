@@ -182,11 +182,16 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       //  Bonus additional x_axis
     var incomeLabel = labelsGroup.append("text")
         .attr("x", 0)
-        .attr("y", 40)
-        .attr("value", "income") // value to grab for event listener
+        .attr("y", 60)
+        .attr("value", "income") 
+        // value to grab for event listener
         .classed("active", true)
         .text("Household Income (Median)");
     // append y axis
+    // Create group for three x-axis labels
+    var labelsYGroup = chartGroup.append("g")
+        .attr("transform", `translate(${margin.left}, ${height / 2})`);
+
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left)
