@@ -96,16 +96,35 @@ function renderYAxis(newYScale, yAxis) {
     return textGroup;
   }
 
+  //function to style x-axis values for tooltips
+function styleX(value, chosenXAxis) {
+
+  //style based on variable
+  //poverty
+  if (chosenXAxis === 'poverty') {
+      return `${value}%`;
+  }
+  //age
+  else if (chosenXAxis === 'age') {
+      return `${value}`;
+  }
+   //income
+  else if (chosenXAxis === 'income') {
+    return `$${value}`;
+  }
+}
+
 // function used for updating circles group with new tooltip
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var labelX;
-  
     if (chosenXAxis === "poverty") {
       labelX = "Poverty:";
+    
     }
     else if (chosenXAxis === "age") {
       labelX = "Age:";
+      
     }
     else if (chosenXAxis === "income") {
       labelX = "Income:";
@@ -127,7 +146,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       .attr("class", "d3-tip")
       .offset([35, 80])                   // Show tool tips on the right of the circle
       .html(function(d) {
-        return (`${d.state}<br>${labelX} ${d[chosenXAxis]}%<br>${labelY} ${d[chosenYAxis]}%`);
+        return (`${d.state}<br>${labelX} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${labelY} ${d[chosenYAxis]}%`);
       });
   
     circlesGroup.call(toolTip);
