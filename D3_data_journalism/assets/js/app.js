@@ -64,17 +64,18 @@ function renderAxes(newXScale, xAxis) {
   
   // function used for updating circles group with a transition to
   // new circles
-  function renderCircles(circlesGroup, newXScale, chosenXAxis) {
+  function renderCircles(circlesGroup, newXScale, chosenXAxis, chosenYAxis) {
   
     circlesGroup.transition()
       .duration(1000)
-      .attr("cx", d => newXScale(d[chosenXAxis]));
+      .attr("cx", d => newXScale(d[chosenXAxis]))
+      .attr("cy", d => newYScale(d[chosenYAxis]));
   
     return circlesGroup;
   }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var labelX;
   
