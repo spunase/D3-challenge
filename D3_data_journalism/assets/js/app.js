@@ -61,10 +61,21 @@ function renderAxes(newXScale, xAxis) {
   
     return xAxis;
   }
+
+  // function used for updating yAxis var upon click on axis label
+function renderAxes(newYScale, yAxis) {
+  var leftAxis = d3.axisBottom(newYScale);
+
+  yAxis.transition()
+    .duration(1000)
+    .call(leftAxis);
+
+  return yAxis;
+}
   
   // function used for updating circles group with a transition to
   // new circles
-  function renderCircles(circlesGroup, newXScale, chosenXAxis, chosenYAxis) {
+  function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
   
     circlesGroup.transition()
       .duration(1000)
@@ -88,6 +99,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     else if (chosenXAxis === "income") {
       labelX === "Household Income:";
     }
+
     var labelY;
   
     if (chosenYAxis === "healthcare") {
@@ -192,14 +204,16 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("value", "poverty") // value to grab for event listener
         .classed("active", true)
         .text("In Poverty (%)");
-        // Bonus  additional X_axis labels in your scatter plot
+    
+    // Bonus  additional X_axis labels in your scatter plot
     var ageLabel = labelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 40)
         .attr("value", "age") // value to grab for event listener
         .classed("inactive", true)
         .text("Age (Median)"); 
-      //  Bonus additional x_axis
+
+    //  Bonus additional x_axis
     var incomeLabel = labelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
@@ -207,6 +221,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         // value to grab for event listener
         .classed("inactive", true)
         .text("Household Income (Median)");
+
     // append y axis
     // Create group for three y-axis labels
     var labelsYGroup = chartGroup.append("g")
@@ -238,7 +253,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
 
 
         // updateToolTip function above csv import
-        var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+        var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
       
         // x axis labels event listener
         labelsGroup.selectAll("text")
@@ -258,10 +273,10 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
               xAxis = renderAxes(xLinearScale, xAxis);
       
               // updates circles with new x values
-              circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+              circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
       
               // updates tooltips with new info
-              circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+              circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
       
               // changes classes to change bold text
               // for X Axis labels
@@ -314,10 +329,10 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
                 yAxis = renderAxes(yLinearScale, yAxis);
         
                 // updates circles with new y values
-                circlesGroup = renderCircles(circlesGroup, yLinearScale, chosenYAxis);
+                circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
         
                 // updates tooltips with new info
-                circlesGroup = updateToolTip(chosenYAxis, circlesGroup);
+                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
                 // changes classes to change bold text
                 // for Y Axis labels
