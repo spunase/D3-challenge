@@ -155,7 +155,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .call(bottomAxis);
 
     // append y axis
-    chartGroup.append("g")
+    var yAxis = chartGroup.append("g")
         .call(leftAxis);
 
     // append initial circles
@@ -304,7 +304,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       
                 // replaces chosenYAxis with value
                 chosenYAxis = value;
-        
+                console.log(chosenYAxis);
                 // functions here found above csv import
                 // updates y scale for new data
                 yLinearScale = yScale(data, chosenYAxis);
