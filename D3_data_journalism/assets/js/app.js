@@ -81,7 +81,7 @@ function renderYAxis(newYScale, yAxis) {
       .duration(1000)
       .attr("cx", d => newXScale(d[chosenXAxis]))
       .attr("cy", d => newYScale(d[chosenYAxis]));
-  
+    console.log("render circle", chosenXAxis, chosenYAxis);
     return circlesGroup;
   }
   // function used for updating state abbreviation group with a transition to
@@ -108,7 +108,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       labelX === "Age:";
     }
     else if (chosenXAxis === "income") {
-      labelX === "Household Income:";
+      labelX === "Income:";
     }
 
     var labelY;
@@ -119,7 +119,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     else if(chosenYAxis === "smokes") {
       labelY = "Smokes:";
     }
-    else if(chosenYAxis === "obese") {
+    else if(chosenYAxis === "obesity") {
       labelY = "Obese:";
     }
   
@@ -259,7 +259,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("transform", "rotate(-90)")
         .attr("y", 10)
         .attr("x", 0)
-        .attr("value", "obese")     // value to grab for event listener
+        .attr("value", "obesity")     // value to grab for event listener
         .attr("dy", "1em")
         .classed("inactive", true)
         .text("Obese (%)"); 
