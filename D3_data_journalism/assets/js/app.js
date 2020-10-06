@@ -84,14 +84,15 @@ function renderYAxis(newYScale, yAxis) {
   
     return circlesGroup;
   }
-
+  // function used for updating state abbreviation group with a transition to
+  // new circle positions
   function renderText(textGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
 
     textGroup.transition()
       .duration(1000)
       .attr("x", d => newXScale(d[chosenXAxis]))
       .attr("y", d => newYScale(d[chosenYAxis]));
-      
+
     return textGroup;
   }
 
@@ -118,7 +119,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     else if(chosenYAxis === "smokes") {
       labelY = "Smokes:";
     }
-    else if(chosenYAxis === "obesity") {
+    else if(chosenYAxis === "obese") {
       labelY = "Obese:";
     }
   
@@ -153,9 +154,9 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
     // parse data
     data.forEach(function(journalismData) {
         journalismData.poverty = +journalismData.poverty;
+        journalismData.age = +journalismData.age;
         journalismData.income = +journalismData.income;
         journalismData.healthcare = +journalismData.healthcare;
-        journalismData.age = +journalismData.age;
         journalismData.smokes = +journalismData.smokes;
         journalismData.obesity = +journalismData.obesity;
         
@@ -272,11 +273,12 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
           .on("click", function() {
             // get value of selection
             var value = d3.select(this).attr("value");
+            
             if (value !== chosenXAxis) {
-      
+              
               // replaces chosenXAxis with value
               chosenXAxis = value;
-      
+              console.log("X clicked", chosenXAxis,chosenYAxis) 
               // functions here found above csv import
               // updates x scale for new data
               xLinearScale = xScale(data, chosenXAxis);
@@ -338,10 +340,12 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
             .on("click", function() {
               // get value of selection
               var value = d3.select(this).attr("value");
+             
               if (value !== chosenYAxis) {
-      
+                 
                 // replaces chosenYAxis with value
                 chosenYAxis = value;
+                console.log("Y clicked", chosenXAxis,chosenYAxis);
                 // functions here found above csv import
                 // updates y scale for new data
                 yLinearScale = yScale(data, chosenYAxis);
