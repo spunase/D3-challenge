@@ -249,8 +249,6 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
               // replaces chosenXAxis with value
               chosenXAxis = value;
       
-              // console.log(chosenXAxis)
-      
               // functions here found above csv import
               // updates x scale for new data
               xLinearScale = xScale(data, chosenXAxis);
@@ -302,42 +300,60 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
 
               }
 
-              // changes classes to change bold text
-              // for Y Axis labels
-              if (chosenYAxis === "healthcare") {
-                healthLabel
-                  .classed("active", true)
-                  .classed("inactive", false);
-                smokeLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-                obesityLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-              }
-              else if (chosenYAxis === "smokes") {
-                healthLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-                smokeLabel
-                  .classed("active", true)
-                  .classed("inactive", false);
-                obesityLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-                
-              }
-              else {
-                healthLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-                smokeLabel
-                  .classed("active", false)
-                  .classed("inactive", true);
-                obesityLabel
-                  .classed("active", true)
-                  .classed("inactive", false);
+              if (value !== chosenYAxis) {
+      
+                // replaces chosenYAxis with value
+                chosenYAxis = value;
+        
+                // functions here found above csv import
+                // updates y scale for new data
+                yLinearScale = yScale(data, chosenYAxis);
+        
+                // updates y axis with transition
+                yAxis = renderAxes(yLinearScale, yAxis);
+        
+                // updates circles with new y values
+                circlesGroup = renderCircles(circlesGroup, yLinearScale, chosenYAxis);
+        
+                // updates tooltips with new info
+                circlesGroup = updateToolTip(chosenYAxis, circlesGroup);
 
+                // changes classes to change bold text
+                // for Y Axis labels
+                if (chosenYAxis === "healthcare") {
+                  healthLabel
+                    .classed("active", true)
+                    .classed("inactive", false);
+                  smokeLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  obesityLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                }
+                else if (chosenYAxis === "smokes") {
+                  healthLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  smokeLabel
+                    .classed("active", true)
+                    .classed("inactive", false);
+                  obesityLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  
+                }
+                else {
+                  healthLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  smokeLabel
+                    .classed("active", false)
+                    .classed("inactive", true);
+                  obesityLabel
+                    .classed("active", true)
+                    .classed("inactive", false);
+                }
               }
             }
           });
