@@ -105,10 +105,10 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
       labelX = "Poverty:";
     }
     else if (chosenXAxis === "age") {
-      labelX === "Age:";
+      labelX = "Age:";
     }
     else if (chosenXAxis === "income") {
-      labelX === "Income:";
+      labelX = "Income:";
     }
 
     var labelY;
@@ -278,7 +278,6 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
               
               // replaces chosenXAxis with value
               chosenXAxis = value;
-              console.log("X clicked", chosenXAxis,chosenYAxis) 
               // functions here found above csv import
               // updates x scale for new data
               xLinearScale = xScale(data, chosenXAxis);
@@ -345,7 +344,6 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
                  
                 // replaces chosenYAxis with value
                 chosenYAxis = value;
-                console.log("Y clicked", chosenXAxis,chosenYAxis);
                 // functions here found above csv import
                 // updates y scale for new data
                 yLinearScale = yScale(data, chosenYAxis);
