@@ -11,6 +11,12 @@
   text-anchor: middle;
 }
 
+.active:hover {
+  fill: #D92335;
+  cursor: pointer;
+  opacity: 1;
+}
+
 .inactive {
   font-weight: lighter;
   fill: #c9c9c9;
@@ -19,7 +25,7 @@
   cursor: pointer;
 }
 
-.active:hover {
+.inactive:hover {
   fill: #D92335;
   cursor: pointer;
   opacity: 1;
@@ -35,6 +41,12 @@
 .stateCircle {
   fill: #89bdd3;
   stroke: #e3e3e3;
+}
+
+.stateCircle:hover {
+  fill: #D92335;
+  cursor: pointer;
+  opacity: 1;
 }
 
 .chart {
