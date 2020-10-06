@@ -197,7 +197,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("x", 0)
         .attr("y", 40)
         .attr("value", "age") // value to grab for event listener
-        .classed("active", true)
+        .classed("active", false)
         .text("Age (Median)"); 
       //  Bonus additional x_axis
     var incomeLabel = labelsGroup.append("text")
@@ -205,7 +205,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 60)
         .attr("value", "income") 
         // value to grab for event listener
-        .classed("active", true)
+        .classed("active", false)
         .text("Household Income (Median)");
     // append y axis
     // Create group for three y-axis labels
@@ -225,7 +225,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 30)
         .attr("x", 0)
         .attr("dy", "1em")
-        .classed("active", true)
+        .classed("active", false)
         .text("Smokes (%)"); 
 
         var obesityLabel = labelsYGroup.append("text")
@@ -233,7 +233,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("y", 10)
         .attr("x", 0)
         .attr("dy", "1em")
-        .classed("active", true)
+        .classed("active", false)
         .text("Obese (%)"); 
 
 
