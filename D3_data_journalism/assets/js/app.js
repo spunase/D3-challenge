@@ -142,7 +142,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
     var xLinearScale = xScale(data, chosenXAxis);
      
     // Create y scale function
-    var yLinearScale = yScale(date, chosenYAxis);
+    var yLinearScale = yScale(data, chosenYAxis);
     
     // Create initial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -166,7 +166,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
         .attr("r", 15)
-        .classed("inactive", true)
+        .classed("stateCircle", true)
         .attr("opacity", ".6");
 
     /* Create the text for each state circle */
