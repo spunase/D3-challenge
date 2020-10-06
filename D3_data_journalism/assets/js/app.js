@@ -52,7 +52,7 @@ function yScale(journalismData, chosenYAxis) {
 }
 
 // function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, xAxis) {
+function renderXAxis(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
   
     xAxis.transition()
@@ -63,14 +63,14 @@ function renderAxes(newXScale, xAxis) {
   }
 
   // function used for updating yAxis var upon click on axis label
-function renderAxes(newYScale, yAxis) {
-  var leftAxis = d3.axisBottom(newYScale);
+function renderYAxis(newYScale, yAxis) {
+    var leftAxis = d3.axisLeft(newYScale);
 
-  yAxis.transition()
-    .duration(1000)
-    .call(leftAxis);
+    yAxis.transition()
+      .duration(1000)
+      .call(leftAxis);
 
-  return yAxis;
+    return yAxis;
 }
   
   // function used for updating circles group with a transition to
@@ -195,18 +195,18 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       .attr('dy',3)                //adjusts the text position so that it is vertically in the center of the circle 
 
     // Create group for three x-axis labels
-    var labelsGroup = chartGroup.append("g")
+    var labelsXGroup = chartGroup.append("g")
         .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
-    var povertyLabel = labelsGroup.append("text")
+    var povertyLabel = labelsXGroup.append("text")
         .attr("x", 0)
         .attr("y", 20)
         .attr("value", "poverty") // value to grab for event listener
         .classed("active", true)
         .text("In Poverty (%)");
     
-    // Bonus  additional X_axis labels in your scatter plot
-    var ageLabel = labelsGroup.append("text")
+    // Bonus additional X_axis labels in your scatter plot
+    var ageLabel = labelsXGroup.append("text")
         .attr("x", 0)
         .attr("y", 40)
         .attr("value", "age") // value to grab for event listener
@@ -214,7 +214,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .text("Age (Median)"); 
 
     //  Bonus additional x_axis
-    var incomeLabel = labelsGroup.append("text")
+    var incomeLabel = labelsXGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
         .attr("value", "income") 
@@ -256,7 +256,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
       
         // x axis labels event listener
-        labelsGroup.selectAll("text")
+        labelsXGroup.selectAll("text")
           .on("click", function() {
             // get value of selection
             var value = d3.select(this).attr("value");
@@ -270,7 +270,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
               xLinearScale = xScale(data, chosenXAxis);
       
               // updates x axis with transition
-              xAxis = renderAxes(xLinearScale, xAxis);
+              xAxis = renderXAxis(xLinearScale, xAxis);
       
               // updates circles with new x values
               circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
@@ -315,7 +315,14 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
                   .classed("inactive", false);
 
               }
-
+            }
+          });   
+          
+          // y axis labels event listener
+          labelsYGroup.selectAll("text")
+            .on("click", function() {
+              // get value of selection
+              var value = d3.select(this).attr("value");
               if (value !== chosenYAxis) {
       
                 // replaces chosenYAxis with value
@@ -326,7 +333,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
                 yLinearScale = yScale(data, chosenYAxis);
         
                 // updates y axis with transition
-                yAxis = renderAxes(yLinearScale, yAxis);
+                yAxis = renderYAxis(yLinearScale, yAxis);
         
                 // updates circles with new y values
                 circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
@@ -371,8 +378,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
                     .classed("inactive", false);
                 }
               }
-            }
-          });
+            });  
       }).catch(function(error) {
         console.log(error);
       });
