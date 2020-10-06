@@ -217,8 +217,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
     var incomeLabel = labelsXGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
-        .attr("value", "income") 
-        // value to grab for event listener
+        .attr("value", "income")     // value to grab for event listener
         .classed("inactive", true)
         .text("Household Income (Median)");
 
@@ -231,6 +230,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("transform", "rotate(-90)")
         .attr("y", 50)
         .attr("x", 0)
+        .attr("value", "healthcare")     // value to grab for event listener
         .attr("dy", "1em")
         .classed("active", true)
         .text("Lacks Healthcare (%)"); 
@@ -239,6 +239,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("transform", "rotate(-90)")
         .attr("y", 30)
         .attr("x", 0)
+        .attr("value", "smokes")     // value to grab for event listener
         .attr("dy", "1em")
         .classed("inactive", true)
         .text("Smokes (%)"); 
@@ -247,6 +248,7 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
         .attr("transform", "rotate(-90)")
         .attr("y", 10)
         .attr("x", 0)
+        .attr("value", "obese")     // value to grab for event listener
         .attr("dy", "1em")
         .classed("inactive", true)
         .text("Obese (%)"); 
@@ -327,7 +329,6 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
       
                 // replaces chosenYAxis with value
                 chosenYAxis = value;
-                console.log(chosenYAxis);
                 // functions here found above csv import
                 // updates y scale for new data
                 yLinearScale = yScale(data, chosenYAxis);
